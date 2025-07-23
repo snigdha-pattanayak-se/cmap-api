@@ -1,0 +1,253 @@
+openapi: 3.0.0
+x-stoplight:
+  id: 3xmytavhmapqm
+info:
+  title: CMAP
+  version: '1.0'
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  '/getDocument?docId={docId}':
+    parameters:
+      - schema:
+          type: string
+        name: docId
+        in: path
+        required: true
+        description: pass document id to fetch the base64 for data
+    get:
+      summary: Get Document Info by Document ID
+      responses:
+        '200':
+          description: Document Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+              examples:
+                Get User Alice Smith:
+                  value:
+                    id: 142
+                    firstName: Alice
+                    lastName: Smith
+                    email: alice.smith@gmail.com
+                    dateOfBirth: '1997-10-31'
+                    emailVerified: true
+                    signUpDate: '2019-08-24'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+      operationId: get-document-docId
+      description: Retrieve the information of the document with the matching document ID.
+      x-stoplight:
+        id: qupz1a0l1wx4b
+      tags:
+        - CMAP Document
+  /getresultSet:
+    post:
+      summary: Retrieve Document ID
+      operationId: post-user
+      responses:
+        '200':
+          description: Document Id generated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+              examples:
+                New User Bob Fellow:
+                  value:
+                    id: 12
+                    firstName: Bob
+                    lastName: Fellow
+                    email: bob.fellow@gmail.com
+                    dateOfBirth: '1996-08-24'
+                    emailVerified: false
+                    createDate: '2020-11-18'
+        '400':
+          description: 'Request is invalid and cannot be processed due one or more issues such as syntax errors, missing required fields, out of range values, conflicting query parameters, or unknown URI.'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  userMessage:
+                    type: string
+                  developerMessage:
+                    type: string
+                  moreInfo:
+                    type: string
+                x-examples:
+                  Example 1:
+                    code: BAD_REQUEST
+                    userMessage: 'Request is invalid and cannot be processed due one or more issues such as syntax errors, missing required fields, out of range values, conflicting query parameters, or unknown URI.'
+                    developerMessage: Request content is malformed or exceeded structural limits
+                    moreInfo: 'https://example.com/error/123'
+              examples:
+                Example:
+                  value:
+                    code: BAD_REQUEST
+                    userMessage: 'Request is invalid and cannot be processed due one or more issues such as syntax errors, missing required fields, out of range values, conflicting query parameters, or unknown URI.'
+                    developerMessage: Request content is malformed or exceeded structural limits
+                    moreInfo: 'https://example.com/error/123'
+        '401':
+          description: 'The client is not authorized to perform this request because its identity has not yet been established, or the token is invalid or has expired.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Example:
+                  value:
+                    code: UNAUTHORIZED
+                    userMessage: 'The client is not authorized to perform this request because its identity has not yet been established, or the token is invalid or has expired.'
+                    developerMessage: Invalid Access Token
+                    moreInfo: 'https://example.com/error/123'
+        '403':
+          description: The client does not have permission to perform the requested action e.g. POST or DELETE.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Example:
+                  value:
+                    code: FORBIDDEN
+                    userMessage: The client does not have permission to perform the requested action e.g. POST or DELETE.
+                    developerMessage: Http verb DELETE is not supported for path suffix /installed-products/track
+                    moreInfo: 'https://example.com/error/123'
+        '404':
+          description: Requested resource does not exist on the server. It is assumed that the URI is valid for this type of resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Example:
+                  value:
+                    code: NOT_FOUND
+                    userMessage: Requested resource does not exist on the server. It is assumed that the URI is valid for this type of resource.
+                    developerMessage: Records not found
+                    moreInfo: 'https://example.com/error/123'
+        '429':
+          description: Number of requests has exceeded the client's rate limits.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Example:
+                  value:
+                    code: TOO_MANY_REQUESTS
+                    userMessage: Number of requests has exceeded the client’s rate limits.
+                    developerMessage: Spike arrest violation
+                    moreInfo: 'https://example.com/error/123'
+        '500':
+          description: Requested operation encountered an unexpected server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Example:
+                  value:
+                    code: INTERNAL_SERVER_ERROR
+                    userMessage: Requested operation encountered an unexpected server error.
+                    developerMessage: 'Target service is unavailable, please try again later.'
+                    moreInfo: 'https://example.com/error/123'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reportId:
+                  type: string
+                parameters:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      paramName:
+                        type: string
+                      paramValue:
+                        type: string
+              x-examples:
+                Example 1:
+                  reportId: SEREPGETDOCID
+                  parameters:
+                    - paramName: itemRef
+                      paramValue: 0J-0P8821-700
+                    - paramName: verdictId
+                      paramValue: TSCAS6H
+            examples:
+              Create User Bob Fellow:
+                value:
+                  firstName: Bob
+                  lastName: Fellow
+                  email: bob.fellow@gmail.com
+                  dateOfBirth: '1996-08-24'
+        description: Post the necessary fields for the API to get the document id.
+      description: Create a new user.
+      x-stoplight:
+        id: nv1xlmk299mc5
+    parameters: []
+components:
+  schemas:
+    Document:
+      type: array
+      x-stoplight:
+        id: 915bf0ce2d55f
+      x-examples:
+        Example 1:
+          - docId: D00000E137
+      description: document
+      title: Document
+      items:
+        type: object
+        properties:
+          docId:
+            type: string
+            description: document id
+    Document-Base64:
+      type: string
+      x-stoplight:
+        id: 98d9ded5cb2f7
+      x-examples:
+        Example 1: hsjknknxsiidwjwlkdjfjhjdjlds
+      title: Document Base64
+      description: Document data in base64 encoding
+    ErrorResponse:
+      type: object
+      x-examples:
+        Example 1:
+          code: MISSING_FIELD or 12345
+          userMessage: 'Required field is missing: productSku'
+          developerMessage: 'Product master API ParseException: required tag <sku> expected'
+          moreInfo: 'https://example.com/product-master/v1/error/12345'
+      properties:
+        code:
+          type: string
+          description: "Service-defined error code which may be numeric or a string.\r\n\r\nErrors detected by the APIM platform result in the following codes.\r\n\r\nBAD_REQUEST (for 400) UNAUTHORIZED (for 401) FORBIDDEN (for 403) NOT_FOUND (for 404) GONE (for 410) PRECONDITION_FAILED (for 412) TOO_MANY_REQUESTS (for 429) INTERNAL_SERVER_ERROR (for 500) NOT_IMPLEMENTED (for 501)\r\n\r\nAny specific service validation errors would replace BAD_REQUEST."
+        userMessage:
+          type: string
+          description: Human-readable general description of the error.
+        developerMessage:
+          type: string
+          description: Optional human-readable description of the error details.
+        moreInfo:
+          type: string
+          description: 'Optional link to error documentation, which has more information about the error.'
+      title: ErrorResponse
+      description: Error response returned to the consumer when an HTTP error status has occurred.
