@@ -51,7 +51,7 @@ paths:
       x-stoplight:
         id: qupz1a0l1wx4b
       tags:
-        - CMAP Document
+        - CMAP
   /getresultSet:
     post:
       summary: Retrieve Document ID
@@ -202,6 +202,8 @@ paths:
       description: Create a new user.
       x-stoplight:
         id: nv1xlmk299mc5
+      tags:
+        - CMAP
     parameters: []
 components:
   schemas:
