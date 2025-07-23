@@ -4,8 +4,14 @@ x-stoplight:
 info:
   title: CMAP
   version: '1.0'
+  description: This API will be used for POST|GET document ID and its content. It is a wrapper on top of CMAP endpoint.
+  contact:
+    name: ' Naga Inaganti'
+    email: naga.inaganti@se.com
+    url: 'https://se.com'
 servers:
-  - url: 'http://localhost:3000'
+  - url: 'https://api.qa.se.com/v1/api/data/document'
+    description: QA
 paths:
   '/getDocument?docId={docId}':
     parameters:
@@ -253,3 +259,11 @@ components:
           description: 'Optional link to error documentation, which has more information about the error.'
       title: ErrorResponse
       description: Error response returned to the consumer when an HTTP error status has occurred.
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: ''
+          refreshUrl: ''
+          scopes: {}
