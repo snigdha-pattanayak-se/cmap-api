@@ -177,18 +177,6 @@ paths:
           application/json:
             schema:
               type: object
-              properties:
-                reportId:
-                  type: string
-                parameters:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      paramName:
-                        type: string
-                      paramValue:
-                        type: string
               x-examples:
                 Example 1:
                   reportId: SEREPGETDOCID
@@ -197,6 +185,21 @@ paths:
                       paramValue: 0J-0P8821-700
                     - paramName: verdictId
                       paramValue: TSCAS6H
+              properties:
+                reportId:
+                  type: string
+                  description: Report Id number from BSL
+                parameters:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      paramName:
+                        type: string
+                        description: Parameter name from BSL
+                      paramValue:
+                        type: string
+                        description: Parameter value from BSL
             examples:
               Create User Bob Fellow:
                 value:
